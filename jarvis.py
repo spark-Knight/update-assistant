@@ -27,6 +27,11 @@ from bs4 import BeautifulSoup
 import win32com.client as wincl
 from urllib.request import urlopen
 
+names = ["sid", "nargis"] 
+usrname = random.choice(names) 
+regulation = ["it is my duty", "welcome"]        
+    
+
 Email={'pooja didi':'poojanagar76@gmail.com','veena didi':'veenachandu@gmail.com','hanish':'hanish.arora8@gmail.com','sid':'dna8377850@gmail.com','nargis':'nannikhan72@gmail.com'}
 
 def checker(key):
@@ -83,6 +88,36 @@ def takeCommand():
      
     return query
 
+def add_usr(name):
+    speak("who are you?!!")
+    print("who are you?!!")
+    takeCommand()
+    time.sleep(1)
+    names.append(name)
+    speak("now you can access me")
+    print("now you can access me")
+    speak("i have added your name in user list")   
+    print("i have added your name in user list") 
+
+
+def guess (): # Can you guess to whom u are talking
+    speak("Sure!!!, Just a minute")
+    speak(f"I think you are " + usrname)
+    print("I think you are " + usrname)
+    time.sleep(1)
+    speak(f"can you tell me {usrname} where i am ? ")
+    print(f"can you tell me {usrname} where i am ? ")
+    destination = takeCommand()
+    main_word = destination.replace("you are in ", "") # you have to say only Place name
+    print(main_word)
+    time.sleep(0.5)
+    speak(f"""Wait for a minute.
+    I am searching about {main_word}. 
+    And then You can ask Any question from me. """)
+    print(f"""Wait for a minute.
+    I am searching about {main_word}. 
+    And then You can ask Any question from me. """) 
+
 
   
 def sendEmail(to, content):
@@ -112,11 +147,13 @@ def news():
 def hello():
     speak("Right now, too whom i am talking?")
     print("Right now, too whom i am talking?")
+    input_name = takeCommand()
+    if input_name == "gas me":
+        return guess()
+    else:
+        return add_usr(input_name)
 
-names = ["sid", "nargis"] 
-usrname = random.choice(names) 
-regulation = ["it is my duty", "welcome"]        
-    
+
 if __name__ == '__main__':
     clear = lambda: os.system('cls')
      
@@ -325,26 +362,7 @@ if __name__ == '__main__':
         elif "hello jarvis" in query or "hi" in query:
             speak(f"hello  {usrname}")
 
-        elif "guess" in query: # Can you guess to whom u are talking
-            speak("Sure!!!, Just a minute")
-            speak(f"I think you are " + usrname)
-            print(("I think you are " + usrname))
-            time.sleep(1)
-            speak(f"can you tell me {usrname} where i am ? ")
-            print(f"can you tell me {usrname} where i am ? ")
-            destination = takeCommand()
-            main_word = destination.replace("you are in ", "") # you have to say only Place name
-            print(main_word)
-            time.sleep(0.5)
-            speak(f"""Wait for a minute.
-            I am searching about {main_word}. 
-            And then You can ask Any question from me. """)
-            print(f"""Wait for a minute.
-            I am searching about {main_word}. 
-            And then You can ask Any question from me. """)
-
-
-        elif "Thanks" in query:
+        elif "Thanks" in query or "thank you " in query:
             regu = random.choice(regulation)
             speak(regu)
             print(regu)
