@@ -18,9 +18,10 @@ import ctypes
 import time
 import requests
 import shutil
-import wallpaper
-from twilio.rest import Client
-from clint.textui import progress
+import wallpapers
+import aboutkm
+# from twilio.rest import Client
+# from clint.textui import progress
 from ecapture import ecapture as ec
 from bs4 import BeautifulSoup
 import win32com.client as wincl
@@ -108,9 +109,12 @@ def news():
         speak(f"today's {day[i]} news is: {head[i]}")  
         print(f"today's {day[i]} news is: {head[i]}") 
     
+def hello():
+    speak("Right now, too whom i am talking?")
+    print("Right now, too whom i am talking?")
 
-
-names = ["sid", "nargis"]  
+names = ["sid", "nargis"] 
+usrname = random.choice(names) 
 regulation = ["it is my duty", "welcome"]        
     
 if __name__ == '__main__':
@@ -120,6 +124,7 @@ if __name__ == '__main__':
     # command before execution of this python file
     clear()
     wishMe()
+    hello()
     # username()
      
     while True:
@@ -312,22 +317,21 @@ if __name__ == '__main__':
             speak("It is 9th sense that destroy all other senses")
  
         elif "who are you" in query:
-            speak("I am your virtual assistant created by my dear friend nunny")
+            speak("I am your virtual assistant created by my dear friend sid")
  
         elif 'reason for you' in query:
-            speak("I was created as a Minor project by  nunny ")
+            speak("I was created as a Minor project by sid ")
 
-        elif "hello jarvis" in query:
-            speak("Right now, too whom i am talking?")
+        elif "hello jarvis" in query or "hi" in query:
+            speak(f"hello  {usrname}")
 
         elif "guess" in query: # Can you guess to whom u are talking
             speak("Sure!!!, Just a minute")
-            a = random.choice(names)
-            speak("I think you are " + a)
-            print(("I think you are " + a))
+            speak(f"I think you are " + usrname)
+            print(("I think you are " + usrname))
             time.sleep(1)
-            speak(f"can you tell me {a} where i am ? ")
-            print(f"can you tell me {a} where i am ? ")
+            speak(f"can you tell me {usrname} where i am ? ")
+            print(f"can you tell me {usrname} where i am ? ")
             destination = takeCommand()
             main_word = destination.replace("you are in ", "") # you have to say only Place name
             print(main_word)
@@ -343,10 +347,11 @@ if __name__ == '__main__':
         elif "Thanks" in query:
             regu = random.choice(regulation)
             speak(regu)
-            print(regu)         
+            print(regu)
+          
  
         elif 'change background' in query:
-            setwallpaper = random.choice(wallpaper.walpapers)
+            setwallpaper = random.choice(wallpapers.walpaper)
             ctypes.windll.user32.SystemParametersInfoW(20,
                                                        0,
                                                         setwallpaper,
@@ -396,4 +401,15 @@ if __name__ == '__main__':
  
         elif "i love you" in query:
             speak("It's hard to understand,I love you a ton and million")
+
+
+        elif "about Karam Marg" in query or "about karm marg" in query:
+            about = aboutkm.aboutKM
+            speak(about)
+            print(about) 
+
+        elif "video of karam marg" in query:
+            speak("wait for a minute") 
+            speak("i am searching out the vedio")
+            webbrowser.open("https://www.youtube.com/watch?v=i1V6N97h5So")            
  
