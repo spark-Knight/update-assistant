@@ -148,7 +148,8 @@ def hello():
     speak("Right now, too whom i am talking?")
     print("Right now, too whom i am talking?")
     input_name = takeCommand()
-    if input_name == "gas me":
+    
+    if input_name == "guess me":
         return guess()
     else:
         return add_usr(input_name)
@@ -316,6 +317,11 @@ if __name__ == '__main__':
             print(file.read())
             speak(file.read(6))
 
+        elif "user list" in query:
+            no_of_users = len(names)
+            speak(f"Sir there are {no_of_users} users")
+            speak("these are their names")
+            print(names)    
 
  
         elif 'how are you' in query:
@@ -430,4 +436,3 @@ if __name__ == '__main__':
             speak("wait for a minute") 
             speak("i am searching out the vedio")
             webbrowser.open("https://www.youtube.com/watch?v=i1V6N97h5So")            
- 
