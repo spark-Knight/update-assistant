@@ -1,10 +1,6 @@
 import subprocess
 import wolframalpha
 import pyttsx3
-import tkinter
-import json
-import random
-import operator
 import speech_recognition as sr
 import datetime
 import wikipedia
@@ -12,24 +8,16 @@ import webbrowser
 import os
 import winshell
 import pyjokes
-import feedparser
 import smtplib
 import ctypes
 import time
 import requests
-import shutil
 import wallpapers
 import aboutkm
-# from twilio.rest import Client
-# from clint.textui import progress
-from ecapture import ecapture as ec
-from bs4 import BeautifulSoup
-import win32com.client as wincl
-from urllib.request import urlopen
 
-names = ["sid", "nargis"] 
-usrname = random.choice(names) 
-regulation = ["it is my duty", "welcome"]        
+
+regulation = ["it is my duty", "welcome"]  
+names = ["sid", "nargis"]      
     
 
 Email={'pooja didi':'poojanagar76@gmail.com','veena didi':'veenachandu@gmail.com','hanish':'hanish.arora8@gmail.com','sid':'dna8377850@gmail.com','nargis':'nannikhan72@gmail.com'}
@@ -40,8 +28,6 @@ def checker(key):
     else:
         return "no user found sorry"
 
-
-
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[0].id)
@@ -51,20 +37,6 @@ engine.setProperty("rate",180)
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
-
-def wishMe():
-    hour = int(datetime.datetime.now().hour)
-    if hour>= 0 and hour<12:
-        speak("Good Morning, hello everuone!")
-    elif hour>= 12 and hour<18:
-        speak("Good Afternoon, hello everyone !")  
-    else:
-        speak("Good Evening, hello everyone!") 
-
-    speak("My self jarvis.")
-     
-
-
 
 def takeCommand():
      
@@ -88,84 +60,36 @@ def takeCommand():
      
     return query
 
-def add_usr(name):
-    speak("who are you?!!")
-    print("who are you?!!")
-    takeCommand()
-    time.sleep(1)
-    names.append(name)
-    speak("now you can access me")
-    print("now you can access me")
-    speak("i have added your name in user list")   
-    print("i have added your name in user list") 
+def TaskExecution():
+    speak("Hello , I am Jarvis")
+    speak("HOw Can i Help you")
 
 
-def guess (): # Can you guess to whom u are talking
-    speak("Sure!!!, Just a minute")
-    speak(f"I think you are " + usrname)
-    print("I think you are " + usrname)
-    time.sleep(1)
-    speak(f"can you tell me {usrname} where i am ? ")
-    print(f"can you tell me {usrname} where i am ? ")
-    destination = takeCommand()
-    main_word = destination.replace("you are in ", "") # you have to say only Place name
-    print(main_word)
-    time.sleep(0.5)
-    speak(f"""Wait for a minute.
-    I am searching about {main_word}. 
-    And then You can ask Any question from me. """)
-    print(f"""Wait for a minute.
-    I am searching about {main_word}. 
-    And then You can ask Any question from me. """) 
+    def sendEmail(to, content):
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.ehlo()
+        server.starttls()
+        
+        server.login('your email id', 'your email password')
+        server.sendmail('your email id', to, content)
+        server.close()
+
+    def news():
+        main_url = "https://newsapi.org/v2/top-headlines?sources=techcrunch&apikey=dd99e5301ef942e0a2748194efc4ad40"
+
+        main_page = requests.get(main_url).json()
+        articles = main_page["articles"]
+        head=[]
+        day=["first","second","third"]
+        for ar in articles:
+            head.append(ar["title"])
+        for i in range(len(day)):
+            speak(f"today's {day[i]} news is: {head[i]}")  
+            print(f"today's {day[i]} news is: {head[i]}")
 
 
-  
-def sendEmail(to, content):
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.ehlo()
-    server.starttls()
-    
-    server.login('your email id', 'your email password')
-    server.sendmail('your email id', to, content)
-    server.close()
-
-
-
-def news():
-    main_url = "https://newsapi.org/v2/top-headlines?sources=techcrunch&apikey=dd99e5301ef942e0a2748194efc4ad40"
-
-    main_page = requests.get(main_url).json()
-    articles = main_page["articles"]
-    head=[]
-    day=["first","second","third"]
-    for ar in articles:
-        head.append(ar["title"])
-    for i in range(len(day)):
-        speak(f"today's {day[i]} news is: {head[i]}")  
-        print(f"today's {day[i]} news is: {head[i]}") 
-    
-def hello():
-    speak("Right now, too whom i am talking?")
-    print("Right now, too whom i am talking?")
-    input_name = takeCommand()
-    
-    if input_name == "guess me":
-        return guess()
-    else:
-        return add_usr(input_name)
-
-
-if __name__ == '__main__':
-    clear = lambda: os.system('cls')
-     
-    # This Function will clean any
-    # command before execution of this python file
-    clear()
-    wishMe()
-    hello()
-    # username()
-     
     while True:
+
          
         query = takeCommand().lower()
          
@@ -181,7 +105,7 @@ if __name__ == '__main__':
             results = wikipedia.summary(query, sentences = 3)
             speak("According to Wikipedia")
             print(results)
-            speak(results)
+            speak(results)    
  
         elif 'open youtube' in query:
             speak("Here you go to Youtube\n")
@@ -321,7 +245,12 @@ if __name__ == '__main__':
             no_of_users = len(names)
             speak(f"Sir there are {no_of_users} users")
             speak("these are their names")
-            print(names)    
+            print(names)
+        
+        elif "you need a break" in query:
+            speak("Ok Sir, you Can call me anytime")
+            speak("Just say Wake jarvis!!")
+            break  
 
  
         elif 'how are you' in query:
@@ -364,9 +293,6 @@ if __name__ == '__main__':
  
         elif 'reason for you' in query:
             speak("I was created as a Minor project by sid ")
-
-        elif "hello jarvis" in query or "hi" in query:
-            speak(f"hello  {usrname}")
 
         elif "Thanks" in query or "thank you " in query:
             regu = random.choice(regulation)
@@ -435,4 +361,8 @@ if __name__ == '__main__':
         elif "video of karam marg" in query:
             speak("wait for a minute") 
             speak("i am searching out the vedio")
-            webbrowser.open("https://www.youtube.com/watch?v=i1V6N97h5So")            
+            webbrowser.open("https://www.youtube.com/watch?v=i1V6N97h5So")  
+
+
+
+TaskExecution()
