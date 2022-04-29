@@ -137,7 +137,7 @@ def TaskExecution():
 
         elif "calculate" in query:
              
-            app_id = "R9V425-GXQQLELXJH"
+            app_id = "Enter Your App id"
             client = wolframalpha.Client(app_id)
             indx = query.lower().split().index('calculate')
             query = query.split()[indx + 1:]
@@ -177,7 +177,7 @@ def TaskExecution():
             print("city name:")
             CITY = takeCommand()
             BASE_URL = "https://api.openweathermap.org/data/2.5/weather?"
-            API_KEY = "1d7b48f22fc1a802e2be1716972facae"
+            API_KEY = "Enter Your Api Key"
             URL = BASE_URL + "q=" + CITY + "&appid=" + API_KEY
             response = requests.get(URL)
             if response.status_code == 200:
